@@ -1,0 +1,7 @@
+python-multipart
+fastapi
+uvicorn
+pandas
+scikit-learn
+jinja2
+itsdangerous
