@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{{ role|capitalize }} Login{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-8 rounded-xl shadow-lg">
+  <h2 class="text-2xl font-bold text-gray-800 mb-6">{{ role|capitalize }} Login</h2>
+  {% if error %}<div class="mb-6 text-red-600">{{ error }}</div>{% endif %}
+  <form method="post" class="space-y-6">
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Email</label>
+      <input name="email" type="email" required class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Password</label>
+      <input name="password" type="password" required class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+    </div>
+    <button type="submit" class="w-full py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition duration-150 ease-in-out">Login</button>
+  </form>
+  {% if role=='user' %}
+  <p class="mt-6 text-center text-sm text-gray-600">Don't have an account? <a href="/user/signup" class="text-indigo-600 hover:text-indigo-500">Sign Up</a></p>
+  {% endif %}
+</div>
+{% endblock %}

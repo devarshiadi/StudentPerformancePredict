@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}User Details{% endblock %}
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white p-8 rounded shadow">
+  <h2 class="text-2xl font-bold mb-4">User: {{ user.name }} (ID {{ user.id }})</h2>
+  <p class="mb-6"><strong>Email:</strong> {{ user.email }}</p>
+
+  <!-- Form Data Section -->
+  <h3 class="text-xl font-semibold mb-4">Form Data</h3>
+  <div class="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded mb-6">
+    {% for key, value in form_data.items() %}
+    <div>
+      <span class="font-semibold">{{ key | replace('_', ' ') | title }}:</span>
+      {{ value }}
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Prediction History Section -->
+  <h3 class="text-xl font-semibold mb-2">Prediction History</h3>
+  <table class="w-full table-auto mb-6">
+    <thead>
+      <tr class="bg-gray-100">
+        <th class="p-2">#</th>
+        <th class="p-2">CGPA</th>
+        <th class="p-2">Algorithm</th>
+        <th class="p-2">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in predictions %}
+      <tr class="hover:bg-gray-50">
+        <td class="p-2">{{ p.id }}</td>
+        <td class="p-2">{{ p.predicted | round(2) }}</td>
+        <td class="p-2">{{ p.algorithm }}</td>
+        <td class="p-2">{{ p.timestamp.split(' ')[0] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <a href="/admin/dashboard" class="py-2 px-4 bg-gray-600 text-white rounded hover:bg-gray-700">
+    ← Back to Dashboard
+  </a>
+</div>
+{% endblock %}

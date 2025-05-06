@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% block title %}Predict CGPA{% endblock %}
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-lg">
+  <h1 class="text-3xl font-bold text-gray-800 mb-8">Student CGPA Predictor</h1>
+
+  {% if error %}
+    <div class="mb-6 p-4 bg-red-100 text-red-700 rounded-lg">{{ error }}</div>
+  {% endif %}
+
+  <form id="predictForm" method="post" class="space-y-8">
+    <!-- Personal Information -->
+    <div>
+      <h2 class="text-xl font-semibold text-gray-700 mb-4">Personal Information</h2>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Age (18–29)</label>
+          <input name="Age" type="number" min="18" max="29" required class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"/>
+        </div>
+        <div>
+          <span class="block text-sm font-medium text-gray-700">Gender</span>
+          <div class="mt-2 space-x-4">
+            <label><input type="radio" name="Gender" value="Female" required/> Female</label>
+            <label><input type="radio" name="Gender" value="Male"/> Male</label>
+            <label><input type="radio" name="Gender" value="Other"/> Other</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Study Habits -->
+    <div>
+      <h2 class="text-xl font-semibold text-gray-700 mb-4">Study Habits</h2>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Study Hours/Day (0–24)</label>
+          <input name="HoursOfStudyPerDay" type="number" step="0.1" min="0" max="24" required class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Attendance Rate (%) (0–100)</label>
+          <input name="SchoolAttendanceRate" type="number" step="0.1" min="0" max="100" required class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Tuition Access</label>
+          <select name="TuitionAccess" required class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+            <option value="">Select…</option>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Average Previous Score (0–100)</label>
+          <input name="AveragePreviousScores" type="number" step="0.1" min="0" max="100" required class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lifestyle -->
+    <div>
+      <h2 class="text-xl font-semibold text-gray-700 mb-4">Lifestyle</h2>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Participates in Clubs</label>
+          <select name="ParticipatesInClubs" required class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+            <option value="">Select…</option>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Sleep Hours/Night (0–24)</label>
+          <input name="HoursOfSleep" type="number" step="0.1" min="0" max="24" required class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Eat Breakfast Daily?</label>
+          <select name="BreakfastDaily" required class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+            <option value="">Select…</option>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Leisure Screen Time (0–24h)</label>
+          <input name="ScreenTimeHours" type="number" step="0.1" min="0" max="24" required class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Physical Activity Hours (0–24)</label>
+          <input name="PhysicalActivityHours" type="number" step="0.1" min="0" max="24" required class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Plays Sport</label>
+          <select name="PlaysSport" required class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+            <option value="">Select…</option>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Other Factors -->
+    <div>
+      <h2 class="text-xl font-semibold text-gray-700 mb-4">Other Factors</h2>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Mental Health Score (0–10)</label>
+          <input name="MentalHealthScore" type="number" min="0" max="10" required class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Study Environment Rating (1–5)</label>
+          <input name="StudyEnvironmentRating" type="number" min="1" max="5" required class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Friend Support Score (0–10)</label>
+          <input name="FriendSupportScore" type="number" min="0" max="10" required class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Parental Education Level</label>
+          <select name="ParentalEducationLevel" required class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+            <option value="">Select…</option>
+            <option>High school</option>
+            <option>Graduate</option>
+            <option>Postgrad</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Household Income Level</label>
+          <select name="HouseholdIncomeLevel" required class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+            <option value="">Select…</option>
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Part‑Time Work</label>
+          <select name="PartTimeWork" required class="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+            <option value="">Select…</option>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Warning and Submit -->
+    <div>
+      <p id="hoursWarning" class="text-red-600 hidden mb-4">Total hours > 24!</p>
+      <button type="submit" class="w-full py-3 px-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition duration-150 ease-in-out">
+        Predict CGPA
+      </button>
+    </div>
+  </form>
+</div>
+<script src="/static/js/hours_check.js"></script>
+{% endblock %}

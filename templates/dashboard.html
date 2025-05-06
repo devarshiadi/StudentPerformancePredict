@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg">
+  <!-- Header with greeting and delete/re‑predict -->
+  <div class="flex justify-between items-center mb-8">
+    <h2 class="text-3xl font-bold text-gray-800">
+      Hello, {{ request.session.get('email').split('@')[0] | capitalize }}!
+    </h2>
+    <form method="post" action="/user/delete">
+      <input type="hidden" name="pred_id" value="{{ pred.id }}">
+      <button class="py-2 px-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-150 ease-in-out">
+        Delete & Re‑predict
+      </button>
+    </form>
+  </div>
+
+  <!-- CGPA + Model Details -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+    <div class="p-6 bg-indigo-50 rounded-lg text-center">
+      <h3 class="text-lg font-semibold text-gray-700 mb-2">Your CGPA</h3>
+      <p class="text-5xl font-extrabold text-indigo-600">{{ pred.predicted | round(2) }}</p>
+    </div>
+    <div class="p-6 bg-gray-50 rounded-lg">
+      <h3 class="text-lg font-semibold text-gray-700 mb-2">Model Details</h3>
+      <p class="text-sm text-gray-600"><strong>Algorithm:</strong> {{ pred.algorithm }}</p>
+      <p class="text-sm text-gray-600"><strong>Date:</strong> {{ pred.timestamp.split(' ')[0] }}</p>
+    </div>
+  </div>
+
+  <!-- Input Summary Tiles -->
+  <div>
+    <h3 class="text-xl font-semibold text-gray-800 mb-4">What You Entered</h3>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {% for key, value in pred.input_json.items() %}
+      <div class="p-4 bg-white rounded-lg shadow-sm">
+        <p class="text-sm font-medium text-gray-500">{{ key.replace('_', ' ') | capitalize }}</p>
+        <p class="text-lg font-semibold text-gray-900">{{ value }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

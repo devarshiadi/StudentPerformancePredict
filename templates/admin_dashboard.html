@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<div class="bg-white p-8 rounded-xl shadow-lg">
+  <h2 class="text-3xl font-bold text-gray-800 mb-6">Admin Panel</h2>
+  <p class="mb-6 text-gray-600"><strong>Total Users:</strong> {{ total_users }}</p>
+  <table class="w-full table-auto border-collapse">
+    <thead>
+      <tr class="bg-gray-50 text-gray-700">
+        <th class="p-4 text-left">ID</th>
+        <th class="p-4 text-left">Name</th>
+        <th class="p-4 text-left">Email</th>
+        <th class="p-4 text-center">Last CGPA</th>
+        <th class="p-4 text-center">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for u in users %}
+      {% set last = u.id | tojson | int and (crud.get_predictions(u.id)|last) %}
+      <tr class="hover:bg-gray-50 transition duration-150 ease-in-out">
+        <td class="p-4 border-b">{{ u.id }}</td>
+        <td class="p-4 border-b">{{ u.name }}</td>
+        <td class="p-4 border-b">{{ u.email }}</td>
+        <td class="p-4 border-b text-center">
+          {% if last %}
+            <span class="px-3 py-1 rounded-full text-sm font-medium 
+              {% if last.predicted < 6 %}bg-red-100 text-red-800{% else %}bg-green-100 text-green-800{% endif %}">
+              {{ last.predicted | round(2) }}
+            </span>
+          {% else %}
+            —
+          {% endif %}
+        </td>
+        <td class="p-4 border-b text-center">
+          <form class="inline" method="post" action="/admin/user/delete">
+            <input type="hidden" name="user_id" value="{{ u.id }}">
+            <button class="px-3 py-1 bg-red-600 text-white rounded-full hover:bg-red-700 transition duration-150 ease-in-out">
+              Delete
+            </button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

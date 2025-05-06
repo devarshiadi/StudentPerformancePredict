@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>{% block title %}CGPA App{% endblock %}</title>
+</head>
+<body class="bg-gray-50 min-h-screen bg-cover bg-center bg-no-repeat" style="background-image: url('https://64.media.tumblr.com/f7cd096f108d83c988169096361972fc/tumblr_otjfqziQrH1qze3hdo1_500.gif');">
+  <nav class="bg-indigo-600 text-white shadow-md">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="/" class="flex items-center space-x-2">
+        <img src="https://businessofanimation.com/wp-content/uploads/2023/05/image-38.gif" alt="CGPA App Logo" class="h-8 w-8">
+        <span class="text-xl font-bold">Student Performance Prediction</span>
+      </a>
+      <div class="space-x-4">
+        {% if request.session.is_admin %}
+          <a href="/admin/dashboard" class="hover:text-indigo-200 transition">Admin Dashboard</a>
+          <form action="/admin/logout" method="post" style="display:inline;">
+            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded transition">Logout</button>
+          </form>
+        {% elif request.session.user_id %}
+          <a href="/user/dashboard" class="hover:text-indigo-200 transition">Dashboard</a>
+          <form action="/user/logout" method="post" style="display:inline;">
+            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded transition">Logout</button>
+          </form>
+        {% else %}
+          <a href="/user/login" class="bg-white/10 hover:bg-white/20 px-3 py-1 rounded transition">User</a>
+          <a href="/admin/login" class="bg-white/10 hover:bg-white/20 px-3 py-1 rounded transition">Admin</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+  <main class="container mx-auto py-12">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="bg-indigo-600/20 backdrop-blur-lg border-t border-white/30 text-white py-8">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-lg font-semibold mb-2">About Us</h3>
+          <p>Here you can predict student performance using our advanced tools.</p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-2">Quick Links</h3>
+          <ul>
+            <li><a href="/" class="hover:text-indigo-200">Home</a></li>
+            <li><a href="/user/login" class="hover:text-indigo-200">User</a></li>
+            <li><a href="/admin/login" class="hover:text-indigo-200">Admin</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-2">Our Mission</h3>
+          <p>To improve student performance through predictive analytics.</p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-2">Contact Us</h3>
+          <p>Location: 123 Education St, Learning City, 12345</p>
+          <p>Phone: (123) 456-7890</p>
+          <p>Email: info@studentperformance.com</p>
+        </div>
+      </div>
+      <div class="mt-8 text-center">
+        <p>© 2023 Student Performance Prediction. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
